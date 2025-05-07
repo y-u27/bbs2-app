@@ -50,6 +50,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <h2>投稿内容一覧</h2>
   <?php echo htmlspecialchars($posts)?>
+  <ul>
+    <li><?php echo $id; ?></li>
+    <li><?php echo $title; ?></li>
+    <li><?php echo $category; ?></li>
+    <li><?php echo $post; ?></li>
+  </ul>
 </body>
 
 </html>
