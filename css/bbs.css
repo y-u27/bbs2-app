@@ -1,0 +1,17 @@
+.post_content {
+  display: flex;
+  margin-top: 10px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+.post-list {
+  list-style: none;
+}
+
+hr {
+  width: 40%;
+  border-style: dashed;
+}
