@@ -8,12 +8,13 @@ $pdo = new PDO('mysql:host=localhost;dbname=bbs-app2', $user, $pass);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // 投稿機能
+  $category = $_POST['category'];
   $name = $_POST['name'];
   $post = $_POST['post'];
 
   // SQL文準備
-  $stmt = $pdo->prepare("insert into post(name, post) value(?,?)");
-  $stmt->execute([$name, $post]);
+  $stmt = $pdo->prepare("insert into post(category, name, post) value(?, ?, ?)");
+  $stmt->execute([$category, $name, $post]);
 
   // リダイレクトで再読み込みを防止
   header("Location: bbs.php");
@@ -41,6 +42,12 @@ $posts = $stmt->fetchAll();
     <form action="bbs.php" method="post">
       <div></div>
       <div>
+        <label>カテゴリー：</label>
+        <select name="category">
+          <option value="勉強">勉強</option>
+          <option value="仕事">仕事</option>
+          <option value="その他">その他</option>
+        </select>
         <label>名前：</label>
         <input type="text" name="name">
       </div>
@@ -53,13 +60,15 @@ $posts = $stmt->fetchAll();
   </div>
 
   <h2>投稿内容一覧</h2>
-  <div>
+  <div class="container">
     <?php if (!empty($posts)): ?>
       <ul class="post-list">
         <?php foreach ($posts as $p): ?>
+          <li>カテゴリー：<?php echo $p['category']; ?></li>
           <li>No：<?php echo $p['id']; ?></li>
           <li>名前：<?php echo htmlspecialchars($p['name']); ?></li>
           <li>投稿内容：<?php echo htmlspecialchars($p['post']); ?></li>
+          <a href="delete.php?id=<?php echo $p['id']; ?>">削除する</a>
           <hr align="left">
         <?php endforeach; ?>
       </ul>
